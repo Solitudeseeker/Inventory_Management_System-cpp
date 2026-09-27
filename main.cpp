@@ -22,7 +22,7 @@ void addProduct(vector<Product>& inventory){
         float pPrice;
         int pQuantity;
         cout<<"Enter Product I'd: ";
-        getline(cin, pId);
+        getline(cin>>ws, pId);
         cout<<"Enter Product Name: ";
         getline(cin, pName);
         cout<<"Enter Product Price: ";
@@ -33,11 +33,12 @@ void addProduct(vector<Product>& inventory){
         inventory.push_back(P1);
         cout<<"\nDo you want to add another product(Y/N): ";
         cin>>another;
-        another = toupper(another);
+        another = toupper(static_cast<unsigned char>(another));
         cout<<endl;
         while (another != 'Y' && another != 'N'){
             cout<<"Invalid Input! Please Enter(Y/N): ";
             cin>>another;
+            another = toupper(static_cast<unsigned char>(another));
             cout<<endl;
         }
         cin.ignore();
@@ -136,10 +137,44 @@ void removeProduct(vector<Product>& inventory){
 }
 
 int main(){
-
-    addProduct(inventory);
-    displayProduct(inventory);
-    searchProduct(inventory);
-    updateQuantity(inventory);
+    int choice;
+    do{
+        cout<<"\n+++++++++++++++++++++++++"<<endl;
+        cout<<"+++Inventory Management++"<<endl;
+        cout<<"+++++++++System++++++++++"<<endl;
+        cout<<"+++++++++++++++++++++++++"<<endl;
+        cout<<"1.Add Product"<<endl;
+        cout<<"2.Display Product"<<endl;
+        cout<<"3.Search Product"<<endl;
+        cout<<"4.Update Product"<<endl;
+        cout<<"5.Remove Product"<<endl;
+        cout<<"6.Exit"<<endl;
+        cout<<"+++++++++++++++++++++++++"<<endl;
+        cout<<"\nEnter your choice: ";
+        cin>>choice;
+        switch(choice){
+        case 1:
+            addProduct(inventory);
+            break;
+        case 2:
+            displayProduct(inventory);
+            break;
+        case 3:
+            searchProduct(inventory);
+            break;
+        case 4:
+            updateQuantity(inventory);
+            break;
+        case 5:
+            removeProduct(inventory);
+            break;
+        case 6:
+            cout << "Thank you for using our Inventory Management System!" << endl;
+            break;
+        default:
+            cout << "Invalid Choice!" << endl;
+            break;
+        }
+    }while(choice!=6);  
     return 0;
 }
