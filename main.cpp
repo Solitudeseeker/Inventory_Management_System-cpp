@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<cctype>
 
 using namespace std;
 
@@ -30,9 +31,15 @@ void addProduct(vector<Product>& inventory){
         cin>>pQuantity;
         Product P1{pId, pName, pPrice, pQuantity};
         inventory.push_back(P1);
-        cout<<"\nDo you want to add another product: ";
+        cout<<"\nDo you want to add another product(Y/N): ";
         cin>>another;
-    }while(another == 'Y' || another == 'y');
+        another = toupper(another);
+        while (another != 'Y' && another != 'N'){
+            cout<<"Invalid Input! Please Enter(Y/N): ";
+            cin>>another;
+        }
+        cin.ignore();
+    }while(another == 'Y');
 }
 
 int main(){
