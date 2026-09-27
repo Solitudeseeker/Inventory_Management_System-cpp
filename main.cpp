@@ -2,6 +2,9 @@
 #include<string>
 #include<vector>
 #include<cctype>
+#include<fstream>
+#include<sstream>
+#include<limits>
 
 using namespace std;
 
@@ -41,20 +44,24 @@ void addProduct(vector<Product>& inventory){
             another = toupper(static_cast<unsigned char>(another));
             cout<<endl;
         }
-        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }while(another == 'Y');
 }
 
 void displayProduct(const vector<Product>& inventory){
     cout<<"+++++++++++++++++++++++++"<<endl;
     cout<<"+++++Display Product+++++"<<endl;
+    if(inventory.empty()){
+        cout << "Inventory is empty!" << endl;
+        return;
+    }
     for(int i=0; i<inventory.size(); i++){
-    cout<<"+++++++++++++++++++++++++"<<endl;
-    cout<<"Product I'd: "<<inventory[i].pId<<endl;
-    cout<<"Product Name: "<<inventory[i].pName<<endl;
-    cout<<"Product Price: "<<inventory[i].pPrice<<endl;
-    cout<<"Products Quantity: "<<inventory[i].pQuantity<<endl;
-    cout<<"+++++++++++++++++++++++++\n"<<endl;
+        cout<<"+++++++++++++++++++++++++"<<endl;
+        cout<<"Product I'd: "<<inventory[i].pId<<endl;
+        cout<<"Product Name: "<<inventory[i].pName<<endl;
+        cout<<"Product Price: "<<inventory[i].pPrice<<endl;
+        cout<<"Products Quantity: "<<inventory[i].pQuantity<<endl;
+        cout<<"+++++++++++++++++++++++++\n"<<endl;
     }
 }
 
@@ -66,12 +73,12 @@ void searchProduct(const vector<Product>& inventory){
     cout<<"+++++++++++++++++++++++++"<<endl;
     cout<<"\nEnter the I'd of the Product you want to find: ";
     getline(cin>>ws, search);
-    for(const auto& Product: inventory){
-        if(Product.pId == search){
+    for(const auto& product: inventory){
+        if(product.pId == search){
             cout<<"\n-----Product Founded-----"<<endl;
-            cout<<"Product: "<<Product.pName<<endl;
-            cout<<"Price: "<<Product.pPrice<<endl;
-            cout<<"Quantity: "<<Product.pQuantity<<endl;
+            cout<<"Product: "<<product.pName<<endl;
+            cout<<"Price: "<<product.pPrice<<endl;
+            cout<<"Quantity: "<<product.pQuantity<<endl;
             cout<<"+++++++++++++++++++++++++"<<endl;
             found = true;
             break;
@@ -136,8 +143,55 @@ void removeProduct(vector<Product>& inventory){
     }
 }
 
+void saveInventory(const vector<Product>& inventory){
+    ofstream file("inventory.txt");
+    if (!file) {
+        cout << "Could not open inventory.txt!" << endl;
+        return;
+    }
+    for(int i=0;i<inventory.size(); i++){
+        file<<inventory[i].pId<<","
+            <<inventory[i].pName<<","
+            <<inventory[i].pPrice<<","
+            <<inventory[i].pQuantity<<"\n";
+    }
+    file.close();
+}
+
+void loadInventory(vector<Product>& inventory){
+    ifstream file("inventory.txt");
+
+    if(!file){
+        cout << "Could not open inventory.txt!" << endl;
+        return;
+    }
+
+    inventory.clear();
+
+    string line;
+    while(getline(file, line)){
+        string pId, pName, priceText, quantityText;
+        stringstream ss(line);
+
+        if(getline(ss, pId, ',') &&
+           getline(ss, pName, ',') &&
+           getline(ss, priceText, ',') &&
+           getline(ss, quantityText)){
+
+            float pPrice = stof(priceText);
+            int pQuantity = stoi(quantityText);
+
+            Product p1{pId, pName, pPrice, pQuantity};
+            inventory.push_back(p1);
+        }
+    }
+
+    file.close();
+}
+
 int main(){
     int choice;
+    loadInventory(inventory);
     do{
         cout<<"\n+++++++++++++++++++++++++"<<endl;
         cout<<"+++Inventory Management++"<<endl;
@@ -155,6 +209,7 @@ int main(){
         switch(choice){
         case 1:
             addProduct(inventory);
+            saveInventory(inventory);
             break;
         case 2:
             displayProduct(inventory);
@@ -164,12 +219,15 @@ int main(){
             break;
         case 4:
             updateQuantity(inventory);
+            saveInventory(inventory);
             break;
         case 5:
             removeProduct(inventory);
+            saveInventory(inventory);
             break;
         case 6:
             cout << "Thank you for using our Inventory Management System!" << endl;
+            saveInventory(inventory);
             break;
         default:
             cout << "Invalid Choice!" << endl;
