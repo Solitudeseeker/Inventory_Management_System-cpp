@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<vector>
 
 using namespace std;
 
@@ -11,17 +12,36 @@ class Product{
     int pQuantity;
 };
 
-int main(){
-    Product obj;
-    obj. pId = "S123";
-    obj.pName = "Shoe";
-    obj.pPrice = 11808;
-    obj.pQuantity =20;
+vector<Product> inventory;
 
-    cout<<"Product: "<<obj.pName<<endl;
-    cout<<"I'd: "<<obj.pId<<endl;
-    cout<<"Price: "<<obj.pPrice<<endl;
-    cout<<"pQuantity: "<<obj.pQuantity<<endl;
+void addProduct(vector<Product>& inventory){
+    char another;
+    string pId, pName;
+    float pPrice;
+    int pQuantity;
+    cout<<"Enter Product I'd: ";
+    getline(cin, pId);
+    cout<<"Enter Product Name: ";
+    getline(cin, pName);
+    cout<<"Enter Product Price: ";
+    cin>>pPrice;
+    cout<<"Enter Product Quantity: ";
+    cin>>pQuantity;
+    Product P1{pId, pName, pPrice, pQuantity};
+    inventory.push_back(P1);
+}
+
+int main(){
+
+    addProduct(inventory);
+    for(int i=0; i<inventory.size(); i++){
+        cout<<"\n+++++++++++++++++++++++++"<<endl;
+        cout<<"Product I'd: "<<inventory[i].pId<<endl;
+        cout<<"Product Name: "<<inventory[i].pName<<endl;
+        cout<<"Product Price: "<<inventory[i].pPrice<<endl;
+        cout<<"Products Quantity: "<<inventory[i].pQuantity<<endl;
+        cout<<"+++++++++++++++++++++++++"<<endl;
+    }
     
     return 0;
 }
