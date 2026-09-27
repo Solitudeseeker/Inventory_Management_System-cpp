@@ -57,9 +57,36 @@ void displayProduct(const vector<Product>& inventory){
     }
 }
 
+void searchProduct(const vector<Product>& inventory){
+    string search;
+    bool found = false;
+    cout<<"+++++++++++++++++++++++++"<<endl;
+    cout<<"+++++Search Product+++++"<<endl;
+    cout<<"+++++++++++++++++++++++++"<<endl;
+    cout<<"\nEnter the I'd of the Product you want to find: ";
+    getline(cin>>ws, search);
+    for(const auto& Product: inventory){
+        if(Product.pId == search){
+            cout<<"\n-----Product Founded-----"<<endl;
+            cout<<"Product: "<<Product.pName<<endl;
+            cout<<"Price: "<<Product.pPrice<<endl;
+            cout<<"Quantity: "<<Product.pQuantity<<endl;
+            cout<<"+++++++++++++++++++++++++"<<endl;
+            found = true;
+            break;
+        }
+
+    }
+    if(!found){
+        cout<<"The Product is not present in Inventory"<<endl;
+        cout<<endl;
+    }
+}
+
 int main(){
 
     addProduct(inventory);
     displayProduct(inventory);
+    searchProduct(inventory);
     return 0;
 }
