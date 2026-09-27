@@ -16,19 +16,23 @@ vector<Product> inventory;
 
 void addProduct(vector<Product>& inventory){
     char another;
-    string pId, pName;
-    float pPrice;
-    int pQuantity;
-    cout<<"Enter Product I'd: ";
-    getline(cin, pId);
-    cout<<"Enter Product Name: ";
-    getline(cin, pName);
-    cout<<"Enter Product Price: ";
-    cin>>pPrice;
-    cout<<"Enter Product Quantity: ";
-    cin>>pQuantity;
-    Product P1{pId, pName, pPrice, pQuantity};
-    inventory.push_back(P1);
+    do{
+        string pId, pName;
+        float pPrice;
+        int pQuantity;
+        cout<<"Enter Product I'd: ";
+        getline(cin, pId);
+        cout<<"Enter Product Name: ";
+        getline(cin, pName);
+        cout<<"Enter Product Price: ";
+        cin>>pPrice;
+        cout<<"Enter Product Quantity: ";
+        cin>>pQuantity;
+        Product P1{pId, pName, pPrice, pQuantity};
+        inventory.push_back(P1);
+        cout<<"\nDo you want to add another product: ";
+        cin>>another;
+    }while(another == 'Y' || another == 'y');
 }
 
 int main(){
