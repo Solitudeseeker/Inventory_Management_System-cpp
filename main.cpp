@@ -83,10 +83,42 @@ void searchProduct(const vector<Product>& inventory){
     }
 }
 
+void updateQuantity(vector<Product>& inventory){
+    string search;
+    int newQuantity;
+    bool found = false;
+    cout<<"+++++++++++++++++++++++++"<<endl;
+    cout<<"+++++Update Quantity+++++"<<endl;
+    cout<<"+++++++++++++++++++++++++"<<endl;
+    cout<<"\nEnter the I'd of the Product you want to change its Quantity: ";
+    getline(cin>>ws, search);
+    for(int i=0; i<inventory.size(); i++){
+        if(inventory[i].pId == search){
+            cout<<"\n-----Product Found-----"<<endl;
+            cout<<"Product previous quantity is: "<<inventory[i].pQuantity<<endl;
+            cout<<"Enter the new quantity: ";
+            cin>>newQuantity;
+            inventory[i].pQuantity = newQuantity;
+            cout<<endl;
+            cout<<"Update Product Quantity Successfully!"<<endl;
+            cout<<"+++++++++++++++++++++++++"<<endl;
+            found = true;
+            break;
+        }
+
+    }
+    if(!found){
+        cout<<"The Product is not present in Inventory"<<endl;
+        cout<<"+++++++++++++++++++++++++"<<endl;
+        cout<<endl;
+    }
+}
+
 int main(){
 
     addProduct(inventory);
     displayProduct(inventory);
     searchProduct(inventory);
+    updateQuantity(inventory);
     return 0;
 }
