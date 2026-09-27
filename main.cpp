@@ -114,6 +114,27 @@ void updateQuantity(vector<Product>& inventory){
     }
 }
 
+void removeProduct(vector<Product>& inventory){
+    string removeId;
+    bool found = false;
+    cout<<"\n++++++Remove Product+++++"<<endl;
+    cout<<"Enter I'd to remove Product: ";
+    getline(cin>>ws, removeId);
+    for(int i=0; i<inventory.size(); i++){
+        if(inventory[i].pId == removeId){
+            inventory.erase(inventory.begin() + i);
+            cout<<"The Product "<<removeId<<" has been remove successfully."<<endl;
+            cout<<"+++++++++++++++++++++++++"<<endl;
+            found = true;
+            break;
+        }
+    }
+    if(!found){
+        cout<<"The Product does not present in yout inventory!"<<endl;
+        cout<<"+++++++++++++++++++++++++"<<endl;
+    }
+}
+
 int main(){
 
     addProduct(inventory);
